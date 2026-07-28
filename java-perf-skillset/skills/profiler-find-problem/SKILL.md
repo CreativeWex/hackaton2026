@@ -41,7 +41,22 @@ description: >
   `<project-root>/.profiler/latest/findings.json`;
 - исходный код проекта (read-only).
 
-Выход: единственный файл `<project-root>/profiler_report.md`.
+Выход: единственный файл `<project-root>/profiler_report.md` —
+**только в standalone-режиме** (пользователь позвал skill напрямую).
+
+**Режим оркестратора (profile-orchestrator):** если вызов пришёл от
+profile-orchestrator (в аргументах явно сказано писать JSONL, или в
+проекте есть `.profile-run/analysis-plan.json`) — не создавай
+`profiler_report.md` вовсе: каждую находку добавь одной JSONL-строкой в
+`<project-root>/.profile-run/findings.jsonl` по единому контракту
+`schemas/finding.schema.json` (`detector: "profiler-find-problem"`,
+`category` — по смыслу находки: утечки памяти/GC — `memory-gc`,
+дедлоки/пулы — `concurrency`, и т.д.; числовой `confidence`: high ≈
+0.85-0.95, medium ≈ 0.70-0.84; `evidence` — краткие факты из
+`findings.json`; `verify` — сценарий и метрики profiler'а). Максимум 10
+строк, существующие строки не редактируй. Остальные правила этого файла
+(как искать причину в коде, уровни уверенности, формулировка
+рекомендации) действуют в обоих режимах.
 
 Жёсткие ограничения:
 - Не изменяй код проекта, тесты, конфигурацию, `profiler/`, `.profiler/` —
