@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="Java Code Smells (curated)"
+         xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
+
+  <description>
+    Curated smell-ориентированный набор для /java-linter-review.
+    Фокус: design / bestpractices / errorprone. Чистый codestyle-нитпик
+    (отступы, порядок импортов) намеренно исключён — им занимается Checkstyle
+    в своём smell-подмножестве, а не создаёт шум здесь.
+  </description>
+
+  <!-- Design smells: god class, длинные методы/классы, coupling, сложность.
+       ОБЯЗАТЕЛЬНАЯ проверка SOLID (в первую очередь SRP): активные правила
+       GodClass, TooManyMethods, TooManyFields, ExcessiveClassLength,
+       ExcessivePublicCount, ExcessiveParameterList, CouplingBetweenObjects,
+       CyclomaticComplexity, CognitiveComplexity — сигнал нарушения
+       Single Responsibility / высокой связности. НЕ исключать их. -->
+  <rule ref="category/java/design.xml">
+    <!-- LoosePackageCoupling требует настройки пакетов — иначе шумит -->
+    <exclude name="LoosePackageCoupling"/>
+    <!-- LawOfDemeter слишком строг для большинства кодовых баз -->
+    <exclude name="LawOfDemeter"/>
+  </rule>
+
+  <!-- Best practices: ОБЯЗАТЕЛЬНАЯ проверка неиспользуемого (dead code) —
+       UnusedPrivateField, UnusedPrivateMethod, UnusedLocalVariable,
+       UnusedFormalParameter, UnusedAssignment. Эти правила НЕ исключать. -->
+  <rule ref="category/java/bestpractices.xml">
+    <!-- Требуют проектных соглашений/аннотаций — вне scope smell-скана -->
+    <exclude name="JUnitTestsShouldIncludeAssert"/>
+    <exclude name="GuardLogStatement"/>
+  </rule>
+
+  <!-- ОБЯЗАТЕЛЬНО: неиспользуемые импорты. Единственное правило из codestyle —
+       остальной codestyle-нитпик намеренно не тянем (см. описание). -->
+  <rule ref="category/java/codestyle.xml/UnnecessaryImport"/>
+
+  <!-- Error-prone: empty catch, сравнение строк ==, ресурсы, NPE-паттерны -->
+  <rule ref="category/java/errorprone.xml">
+    <exclude name="AvoidLiteralsInIfCondition"/>
+    <exclude name="DataflowAnomalyAnalysis"/>
+  </rule>
+
+</ruleset>

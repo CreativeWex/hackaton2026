@@ -1,0 +1,28 @@
+# versions.lock — pinned версии вендоренных линтеров для /java-linter-review.
+# SHA-256 считается по СКАЧАННОМУ артефакту (zip/jar), не по распакованному дереву.
+# Supply-chain: сверяй эти хеши при обновлении версий (квартальный пересмотр).
+
+pmd:
+  version: 7.8.0
+  artifact: pmd-dist-7.8.0-bin.zip
+  url: https://github.com/pmd/pmd/releases/download/pmd_releases%2F7.8.0/pmd-dist-7.8.0-bin.zip
+  sha256: d16077bb9aa471f78cda7a4f7ad84f163514b561316538e04d85157fee1fba10
+  bin: pmd/pmd-bin-7.8.0/bin/pmd        # + subcommand: pmd cpd
+  requires_jdk: 11+
+
+checkstyle:
+  version: 10.21.0
+  artifact: checkstyle-10.21.0-all.jar
+  url: https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.21.0/checkstyle-10.21.0-all.jar
+  sha256: 911fee0b8a8495f0d8a168815e91bb8abb3f497c96a46d8b78e433a516bc88e7
+  jar: checkstyle/checkstyle-10.21.0-all.jar
+  requires_jdk: 11+
+
+spotbugs:
+  version: 4.8.6
+  artifact: spotbugs-4.8.6.zip
+  url: https://github.com/spotbugs/spotbugs/releases/download/4.8.6/spotbugs-4.8.6.zip
+  sha256: 67cdc52cceb17eae394f8fc3660f21659cf354908f818e4d1f45a6935c2e4425
+  bin: spotbugs/spotbugs-4.8.6/bin/spotbugs
+  requires_jdk: 8+
+  note: best-effort — требует скомпилированных классов (target/classes|build/classes)

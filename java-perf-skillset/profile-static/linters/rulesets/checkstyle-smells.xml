@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC
+    "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+    "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<!--
+  Curated smell-подмножество Checkstyle для /java-linter-review.
+  Только структурные smells (сложность, размер, дублирующая структура,
+  опасные конструкции) — НЕ полный style-нитпик (whitespace, javadoc, порядок).
+  severity выставлена так, чтобы маппинг в java-lint-severity.yaml был осмыслен.
+-->
+<module name="Checker">
+  <property name="severity" value="warning"/>
+  <property name="fileExtensions" value="java"/>
+
+  <!-- Размер файла: слишком длинный класс -->
+  <module name="FileLength">
+    <property name="max" value="600"/>
+    <property name="severity" value="error"/>
+  </module>
+
+  <module name="TreeWalker">
+
+    <!-- Сложность -->
+    <module name="CyclomaticComplexity">
+      <property name="max" value="12"/>
+      <property name="severity" value="error"/>
+    </module>
+    <module name="NPathComplexity">
+      <property name="max" value="200"/>
+      <property name="severity" value="error"/>
+    </module>
+    <module name="BooleanExpressionComplexity">
+      <property name="max" value="4"/>
+    </module>
+    <module name="NestedIfDepth">
+      <property name="max" value="3"/>
+    </module>
+    <module name="NestedTryDepth">
+      <property name="max" value="2"/>
+    </module>
+
+    <!-- Размер методов / параметров -->
+    <module name="MethodLength">
+      <property name="max" value="80"/>
+      <property name="severity" value="error"/>
+    </module>
+    <module name="ParameterNumber">
+      <property name="max" value="7"/>
+    </module>
+
+    <!-- ОБЯЗАТЕЛЬНО: неиспользуемое (dead code) — импорты и локальные переменные.
+         Дополняет PMD (unused private field/method/param) до полного набора. -->
+    <module name="UnusedImports">
+      <property name="processJavadoc" value="true"/>
+      <property name="severity" value="warning"/>
+    </module>
+    <module name="RedundantImport"/>
+    <module name="UnusedLocalVariable">
+      <property name="severity" value="warning"/>
+    </module>
+
+    <!-- Опасные / smell-конструкции -->
+    <module name="EmptyCatchBlock"/>
+    <module name="EmptyBlock">
+      <property name="option" value="text"/>
+    </module>
+    <module name="EqualsHashCode"/>
+    <module name="StringLiteralEquality">
+      <property name="severity" value="error"/>
+    </module>
+    <module name="MultipleStringLiterals">
+      <property name="allowedDuplicates" value="2"/>
+    </module>
+    <module name="MagicNumber"/>
+    <module name="SimplifyBooleanExpression"/>
+    <module name="SimplifyBooleanReturn"/>
+    <module name="MissingSwitchDefault"/>
+    <module name="FallThrough"/>
+
+  </module>
+</module>
