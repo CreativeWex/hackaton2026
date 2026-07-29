@@ -11,7 +11,7 @@
 
 1. **Скопируй папки в `.claude/skills/`:**
 ```bash
-cp -r profile* ~/.claude/skills/
+cp -r skills/* ~/.claude/skills/
 ```
 
 2. **Проверь установку:**
@@ -199,43 +199,47 @@ wait
 
 ```
 java-perf-skillset/
-├── profile/                    # Legacy full profiler
-│   ├── SKILL.md
-│   ├── scripts/                # Основные скрипты
-│   └── references/
+├── hooks/
+│   └── profile-guard.sh        # PreToolUse guard hook
 │
-├── profile-orchestrator/       # Smart routing
-│   ├── SKILL.md
-│   └── scripts/
-│       ├── build_project_index.py
-│       ├── route_analysis.py
-│       ├── findings_to_queue.py
-│       └── render_profile_report.py
-│
-├── profile-short/              # Short analysis
-│   └── SKILL.md
-│
-├── profile-static/             # Static analyzers
-│   ├── SKILL.md
-│   ├── linters/
-│   │   ├── checkstyle/
-│   │   ├── pmd/
-│   │   ├── spotbugs/
-│   │   └── rulesets/
-│   └── scripts/
-│       ├── orchestrate.sh
-│       ├── run-checkstyle.sh
-│       ├── run-pmd.sh
-│       ├── run-spotbugs.sh
-│       └── render-static-report.py
-│
-├── profiler/                   # Runtime profiler
-│   ├── SKILL.md
-│   ├── scripts/
-│   └── references/
-│
-└── profiler-find-problem/      # Profiler analysis
-    └── SKILL.md
+└── skills/                     # 31 skill — копируются в ~/.claude/skills/
+    ├── profile/                # Legacy full profiler
+    │   ├── SKILL.md
+    │   ├── scripts/            # queue_*, checkpoint_*, build_queue
+    │   └── references/
+    │
+    ├── profile-orchestrator/   # Smart routing
+    │   ├── SKILL.md
+    │   └── scripts/
+    │       ├── build_project_index.py
+    │       ├── route_analysis.py
+    │       ├── findings_to_queue.py
+    │       └── render_profile_report.py
+    │
+    ├── profile-short/          # Short analysis (обёртка над orchestrator)
+    │   └── SKILL.md
+    │
+    ├── profile-static/         # Static analyzers
+    │   ├── SKILL.md
+    │   ├── linters/
+    │   │   ├── checkstyle/
+    │   │   ├── pmd/
+    │   │   ├── spotbugs/
+    │   │   └── rulesets/
+    │   └── scripts/
+    │       ├── orchestrate.sh
+    │       ├── run-checkstyle.sh
+    │       ├── run-pmd.sh
+    │       ├── run-spotbugs.sh
+    │       ├── normalize-findings.py
+    │       └── render-static-report.py
+    │
+    ├── profiler/               # Runtime profiler
+    ├── profiler-find-problem/  # Profiler analysis
+    ├── java-performance-discovery/
+    ├── java-performance-measurement/
+    ├── apply-recommendations/
+    └── find-*/                 # 22 детектора
 ```
 
 ---
@@ -379,9 +383,9 @@ pkill -f "java.*sensorhub"
 ## 📚 Дальше читай
 
 - `profile/SKILL.md` — полная документация legacy profiler
-- `profile-orchestrator/SKILL.md` — smart routing система
-- `profile-short/SKILL.md` — краткий режим
-- `profile-static/SKILL.md` — статические анализаторы
+- `skills/profile-orchestrator/SKILL.md` — smart routing система
+- `skills/profile-short/SKILL.md` — краткий режим
+- `skills/profile-static/SKILL.md` — статические анализаторы
 
 ---
 
@@ -399,7 +403,7 @@ pkill -f "java.*sensorhub"
 
 ```bash
 # 1. Скопировать скилы
-cp -r profile* ~/.claude/skills/
+cp -r skills/* ~/.claude/skills/
 
 # 2. Перейти в папку проекта
 cd /your/java/project

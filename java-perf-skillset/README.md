@@ -1,6 +1,6 @@
 # Java Performance Skillset
 
-Замкнутая система из 28 skill'ов Claude Code, которая **сама находит
+Замкнутая система из 31 skill'а Claude Code, которая **сама находит
 неэффективный код в Java-проекте, сама чинит его и сама доказывает
 измерением, что стало лучше** — а если стало хуже, сама откатывает правку
 и пробует другой подход. Одна команда — `/profile` — на входе, ветка с
@@ -50,7 +50,7 @@ java-perf-skillset/
 ├── hooks/
 │   └── profile-guard.sh ← PreToolUse-hook: физически блокирует запись фиксера
 │                          в запрещённые пути во время прогона /profile
-└── skills/              ← 28 skill'ов, по папке на каждый (SKILL.md + scripts/ + references/)
+└── skills/              ← 31 skill'а, по папке на каждый (SKILL.md + scripts/ + references/)
 ```
 
 ### Пайплайн (6 skill'ов)

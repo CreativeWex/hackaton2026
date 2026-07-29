@@ -28,8 +28,9 @@
        UnusedPrivateField, UnusedPrivateMethod, UnusedLocalVariable,
        UnusedFormalParameter, UnusedAssignment. Эти правила НЕ исключать. -->
   <rule ref="category/java/bestpractices.xml">
-    <!-- Требуют проектных соглашений/аннотаций — вне scope smell-скана -->
-    <exclude name="JUnitTestsShouldIncludeAssert"/>
+    <!-- Требуют проектных соглашений/аннотаций — вне scope smell-скана.
+         PMD 7: правило переименовано из JUnitTestsShouldIncludeAssert -->
+    <exclude name="UnitTestShouldIncludeAssert"/>
     <exclude name="GuardLogStatement"/>
   </rule>
 
@@ -38,9 +39,9 @@
   <rule ref="category/java/codestyle.xml/UnnecessaryImport"/>
 
   <!-- Error-prone: empty catch, сравнение строк ==, ресурсы, NPE-паттерны -->
+  <!-- Error-prone. PMD 7: DataflowAnomalyAnalysis удалено из PMD — exclude не нужен -->
   <rule ref="category/java/errorprone.xml">
     <exclude name="AvoidLiteralsInIfCondition"/>
-    <exclude name="DataflowAnomalyAnalysis"/>
   </rule>
 
 </ruleset>

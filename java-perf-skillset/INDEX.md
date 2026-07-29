@@ -43,14 +43,14 @@
 ### Документация:
 
 - **`GETTING_STARTED.md`** — Полное руководство для новичков
-- **`QUICK_REFERENCE.md`** — Шпаргалка на одной странице
+
 - **`INSTALL.md`** — Инструкции установки
 - **`INDEX.md`** — Этот файл
 
 ### Дополнительно:
 
 - **`hooks/`** — Git hooks для интеграции
-- **`skills/`** — Резервная копия или документация
+- **`skills/`** — канонический источник установки: 31 skill, копируются целиком
 
 ---
 
@@ -58,7 +58,7 @@
 
 ### Шаг 1: Скопировать скилы
 ```bash
-cp -r profile* ~/.claude/skills/
+cp -r skills/* ~/.claude/skills/
 ```
 
 ### Шаг 2: Проверить установку
@@ -77,10 +77,10 @@ cd /your/java/project
 
 ## 📋 Чек-лист установки
 
-- [ ] Скопированы все 6 папок (profile, profile-orchestrator, profile-short, profile-static, profiler, profiler-find-problem)
-- [ ] Проверены скрипты в `profile-static/scripts/` (исполняемые)
-- [ ] Проверены Python скрипты в `profile-orchestrator/scripts/`
-- [ ] Линтеры присутствуют в `profile-static/linters/`:
+- [ ] Скопирована вся 31 папка из `skills/` (3 режима, оркестратор, 22 детектора, measurement/discovery/profiler, apply-recommendations)
+- [ ] Проверены скрипты в `skills/profile-static/scripts/` (исполняемые)
+- [ ] Проверены Python скрипты в `skills/profile-orchestrator/scripts/`
+- [ ] Линтеры присутствуют в `skills/profile-static/linters/`:
   - [ ] `checkstyle-10.21.0-all.jar` (19 MB)
   - [ ] `pmd-bin-7.8.0/` (папка с bin/)
   - [ ] `spotbugs-4.8.6/` (папка с bin/)
@@ -93,19 +93,19 @@ cd /your/java/project
 
 ### Для начинающих:
 1. Прочитай `GETTING_STARTED.md` (15 мин чтения)
-2. Посмотри `QUICK_REFERENCE.md` (2 мин)
+2. Посмотри `README.md` (2 мин)
 3. Запусти `/profile-short . ` на своем проекте
 
 ### Для опытных:
-1. `profile/SKILL.md` — legacy профилер (полная документация)
-2. `profile-orchestrator/SKILL.md` — smart routing (детали routing)
-3. `profile-short/SKILL.md` — краткий режим (параметры)
-4. `profile-static/SKILL.md` — статические проверки (конфигурация)
+1. `skills/profile/SKILL.md` — legacy профилер (полная документация)
+2. `skills/profile-orchestrator/SKILL.md` — smart routing (детали routing)
+3. `skills/profile-short/SKILL.md` — краткий режим (параметры)
+4. `skills/profile-static/SKILL.md` — статические проверки (конфигурация)
 
 ### Для интеграции:
 - `hooks/profile-guard.sh` — git hook пример
 - `INSTALL.md` — установка и конфигурация
-- `profile/references/queue-schema.md` — схема данных
+- `skills/profile/references/queue-schema.md` — схема данных
 
 ---
 
@@ -136,41 +136,28 @@ cd /your/java/project
 java-perf-skillset/
 │
 ├─ GETTING_STARTED.md    ← Начни отсюда
-├─ QUICK_REFERENCE.md    ← Шпаргалка
 ├─ INSTALL.md            ← Установка
 ├─ INDEX.md              ← Этот файл
+├─ README.md
 │
-├─ profile/              ← Legacy full profiler
-│  ├─ SKILL.md
-│  ├─ scripts/           ← Python скрипты для профилирования
-│  └─ references/
+├─ hooks/                ← Git integration
+│  └─ profile-guard.sh
 │
-├─ profile-orchestrator/ ← Smart routing orchestrator
-│  ├─ SKILL.md
-│  └─ scripts/           ← build_project_index, route_analysis, render_report
-│
-├─ profile-short/        ← Краткий анализ (новый)
-│  └─ SKILL.md
-│
-├─ profile-static/       ← Статические анализаторы (новый)
-│  ├─ SKILL.md
-│  ├─ linters/           ← CheckStyle, PMD, SpotBugs
-│  │  ├─ checkstyle/     ← JAR файлы
-│  │  ├─ pmd/            ← Папка с bin/
-│  │  ├─ spotbugs/       ← Папка с bin/
-│  │  └─ rulesets/       ← XML правила
-│  └─ scripts/           ← Bash и Python скрипты запуска
-│
-├─ profiler/             ← Runtime profiler
-│  ├─ SKILL.md
-│  ├─ scripts/
-│  └─ references/
-│
-├─ profiler-find-problem/← Анализ результатов профайлера
-│  └─ SKILL.md
-│
-└─ hooks/                ← Git integration
-   └─ profile-guard.sh
+└─ skills/               ← 31 skill, копируются целиком в ~/.claude/skills/
+   ├─ profile/                 ← Legacy full profiler (SKILL.md + scripts/ + references/)
+   ├─ profile-orchestrator/    ← Smart routing orchestrator (scripts: build_project_index,
+   │                             route_analysis, findings_to_queue, render_profile_report)
+   ├─ profile-short/           ← Краткий анализ (обёртка над orchestrator)
+   ├─ profile-static/          ← Статические анализаторы
+   │  ├─ linters/              ← CheckStyle, PMD, SpotBugs + rulesets/ + versions.lock
+   │  └─ scripts/              ← orchestrate.sh, run-*.sh, normalize-findings.py,
+   │                             render-static-report.py
+   ├─ profiler/                ← Runtime profiler
+   ├─ profiler-find-problem/   ← Анализ результатов профайлера
+   ├─ java-performance-discovery/
+   ├─ java-performance-measurement/
+   ├─ apply-recommendations/   ← Единственный skill, меняющий код
+   └─ find-*/                  ← 22 детектора (по одному на категорию)
 ```
 
 ---
@@ -235,7 +222,7 @@ ls ~/.claude/skills/profile-static/linters/checkstyle/
 ### Если что-то не работает:
 
 1. Прочитай `GETTING_STARTED.md`
-2. Посмотри `QUICK_REFERENCE.md`
+2. Посмотри `README.md`
 3. Проверь `INSTALL.md` инструкции
 4. Запусти верификацию выше
 5. Посмотри специфичный `SKILL.md` для нужного режима
@@ -254,7 +241,7 @@ ls ~/.claude/skills/profile-static/linters/checkstyle/
 ## 🎓 Рекомендуемый путь обучения
 
 **День 1: Основы (30 мин)**
-1. Прочитай `QUICK_REFERENCE.md` (5 мин)
+1. Прочитай `README.md` (5 мин)
 2. Запусти `/profile-short . ` на своем проекте (5 мин)
 3. Посмотри `PROFILEREPORT.md` (10 мин)
 4. Примени одно исправление (10 мин)
